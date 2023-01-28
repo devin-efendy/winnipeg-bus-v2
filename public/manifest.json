@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Peg Bus",
+  "version": "1.0.0",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["geolocation"],
+  "web_accessible_resources": [{"resources": ["*"], "matches": []}]
+}
