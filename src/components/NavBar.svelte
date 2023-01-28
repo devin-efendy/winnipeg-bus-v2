@@ -1,15 +1,9 @@
 <script>
+  import "iconify-icon";
   import NavButton from "./NavButton.svelte";
-  import {
-    SearchOutline,
-    MapOutline,
-    NavigateCircleOutline,
-    BookmarkOutline,
-    Refresh,
-  } from "svelte-ionicons";
 
   let activeNavButtons = [true, false, false];
-  let iconSize = "26";
+  let iconSize = "30";
 </script>
 
 <div role="navigation" id="navigation-bar">
@@ -20,22 +14,31 @@
       <input placeholder="Search Bus Stops" />
     </label>
     <NavButton active={activeNavButtons[2]}>
-      <SearchOutline size={iconSize} />
+      <iconify-icon
+        icon="ic:baseline-search"
+        style={`font-size: ${iconSize}px`}
+      />
     </NavButton>
   </div>
 
   <div id="nav-button-group">
     <NavButton active={activeNavButtons[2]}>
-      <NavigateCircleOutline size={iconSize} />
-    </NavButton>
-    <!-- <NavButton active={activeNavButtons[1]}>
-      <MapOutline size={iconSize} />
-    </NavButton> -->
-    <NavButton active={activeNavButtons[3]}>
-      <Refresh size={iconSize} />
+      <iconify-icon
+        icon="ion:navigate-circle-outline"
+        style={`font-size: ${iconSize}px`}
+      />
     </NavButton>
     <NavButton active={activeNavButtons[3]}>
-      <BookmarkOutline size={iconSize} />
+      <iconify-icon
+        icon="ic:round-refresh"
+        style={`font-size: ${iconSize}px`}
+      />
+    </NavButton>
+    <NavButton>
+      <iconify-icon
+        icon="ic:round-bookmark-border"
+        style={`font-size: ${iconSize}px`}
+      />
     </NavButton>
   </div>
 </div>
