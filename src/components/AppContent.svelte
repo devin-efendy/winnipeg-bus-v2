@@ -4,7 +4,7 @@
 
 <style>
   #app-content {
-    background-color: #242424;
-    height: 550px;
+    background-color: var(--bg-base);
+    height: 545px;
   }
 </style>

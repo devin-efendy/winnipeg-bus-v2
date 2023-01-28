@@ -5,6 +5,6 @@
   "action": {
     "default_popup": "index.html"
   },
-  "permissions": ["geolocation"],
+  "permissions": ["geolocation", "storage"],
   "web_accessible_resources": [{"resources": ["*"], "matches": []}]
 }
