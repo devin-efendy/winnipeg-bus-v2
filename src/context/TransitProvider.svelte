@@ -1,44 +1,39 @@
 <script lang="ts">
-  import { setContext } from "svelte";
-  import { writable } from "svelte/store";
-  import getLocation from "../utils/location";
-  import type { UserLocation } from "../types";
-  import {
-    getStorageItem,
-    removeStorageItem,
-    setStorageItem,
-  } from "../utils/storage";
+	import { setContext } from 'svelte';
+	import { writable } from 'svelte/store';
+	import getLocation from '../utils/location';
+	import type { UserLocation } from '../types';
+	import { getStorageItem, removeStorageItem, setStorageItem } from '../utils/storage';
 
-  const locationStores = writable<UserLocation>(undefined);
+	const locationStores = writable<UserLocation>(undefined);
 
-  setContext("location", {
-    fetchLocation: async function () {
-      let currentLocation = (await getStorageItem("location")) as UserLocation;
+	setContext('location', {
+		fetchLocation: async function () {
+			let currentLocation = (await getStorageItem('location')) as UserLocation;
 
-      const dateNow = Date.now();
+			if (currentLocation && currentLocation.expiryDate > Date.now()) {
+				return currentLocation;
+			}
 
-      if (currentLocation && currentLocation.expiryDate > dateNow) {
-        return currentLocation;
-      }
+			const { latitude, longitude } = await getLocation();
 
-      const { latitude, longitude } = await getLocation();
+			currentLocation = {
+				latitude,
+				longitude,
+				// 5 minutes = 5 x 60sec * 1000ms
+				expiryDate: Date.now() + 5 * 60 * 1000
+			};
 
-      currentLocation = {
-        latitude,
-        longitude,
-        // 5 minutes = 5 x 60sec * 1000ms
-        expiryDate: Date.now() + 5 * 60 * 1000,
-      };
+			locationStores.set(currentLocation);
+			setStorageItem('location', currentLocation);
 
-      locationStores.set(currentLocation);
-      setStorageItem("location", currentLocation);
-
-      return { latitude, longitude };
-    },
-    clearLocation: function () {
-      removeStorageItem("location");
-    },
-  });
+			return { latitude, longitude };
+		},
+		clearLocation: function () {
+			removeStorageItem('location');
+		},
+		onLocationChange: locationStores.subscribe
+	});
 </script>
 
 <slot />

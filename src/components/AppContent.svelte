@@ -1,10 +1,10 @@
 <div id="app-content">
-  <slot />
+	<slot />
 </div>
 
 <style>
-  #app-content {
-    background-color: var(--bg-base);
-    height: 545px;
-  }
+	#app-content {
+		background-color: var(--bg-base);
+		height: 545px;
+	}
 </style>

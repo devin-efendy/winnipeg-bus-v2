@@ -1,23 +1,33 @@
 {
-  "name": "winnipeg-bus",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build && cp ./src/background.js ./dist/assets/",
-    "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
-  },
-  "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^2.0.0",
-    "@tsconfig/svelte": "^3.0.0",
-    "@types/chrome": "^0.0.210",
-    "iconify-icon": "^1.0.3",
-    "svelte": "^3.54.0",
-    "svelte-check": "^2.10.0",
-    "tslib": "^2.4.1",
-    "typescript": "^4.9.3",
-    "vite": "^4.0.0"
-  }
+	"name": "winnipeg-transit-live",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build && cp ./src/background.js ./dist/assets/",
+		"preview": "vite preview",
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"lint": "npx prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write . && eslint --fix ."
+	},
+	"devDependencies": {
+		"@sveltejs/vite-plugin-svelte": "^2.0.0",
+		"@tsconfig/svelte": "^3.0.0",
+		"@types/chrome": "^0.0.210",
+		"@typescript-eslint/eslint-plugin": "^5.45.0",
+		"@typescript-eslint/parser": "^5.45.0",
+		"eslint": "^8.28.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-import": "^2.27.5",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"iconify-icon": "^1.0.3",
+		"prettier": "^2.8.0",
+		"prettier-plugin-svelte": "^2.8.1",
+		"svelte": "^3.54.0",
+		"svelte-check": "^2.10.0",
+		"tslib": "^2.4.1",
+		"typescript": "^4.9.3",
+		"vite": "^4.0.0"
+	}
 }

@@ -1,10 +1,10 @@
 export interface UserLocation {
-  latitude: string;
-  longitude: string;
-  expiryDate: number;
+	latitude: string;
+	longitude: string;
+	expiryDate: number;
 }
 
 export interface ITransitContext {
-  fetchLocation?: () => UserLocation;
-  clearLocation?: () => void;
+	fetchLocation?: () => UserLocation;
+	clearLocation?: () => void;
 }
