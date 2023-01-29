@@ -8,7 +8,8 @@ function setStorageItem(key: string, value: Object) {
 
 async function getStorageItem(key: string) {
   if (chrome?.storage) {
-    return await chrome.storage.local.get(key);
+    const result = await chrome.storage.local.get(key)
+    return result.location;
   } else {
     return JSON.parse(localStorage.getItem(key));
   }

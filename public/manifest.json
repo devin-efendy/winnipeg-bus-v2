@@ -5,5 +5,8 @@
   "action": {
     "default_popup": "index.html"
   },
-  "permissions": ["geolocation", "storage"]
+  "permissions": ["geolocation", "storage"],
+  "background": {
+    "service_worker": "./assets/background.js"
+  }
 }

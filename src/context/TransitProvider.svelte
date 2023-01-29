@@ -15,10 +15,9 @@
     fetchLocation: async function () {
       let currentLocation = (await getStorageItem("location")) as UserLocation;
 
-      console.log(currentLocation);
+      const dateNow = Date.now();
 
-      if (currentLocation && currentLocation.expiryDate > Date.now()) {
-        console.log("cache hit");
+      if (currentLocation && currentLocation.expiryDate > dateNow) {
         return currentLocation;
       }
 
