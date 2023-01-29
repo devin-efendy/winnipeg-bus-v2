@@ -2,9 +2,10 @@
 	export let active = false;
 	export let icon = '';
 	export let size = '';
+	export let label = '';
 </script>
 
-<button class:active on:click>
+<button aria-label={label} class:active on:click>
 	<iconify-icon class="nav-icon" {icon} style={`font-size: ${size}`} />
 </button>
 

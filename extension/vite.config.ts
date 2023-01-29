@@ -1,7 +1,15 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [svelte()]
+	plugins: [svelte({ hot: !process.env.VITEST })],
+	test: {
+		include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+		globals: true,
+		environment: 'jsdom',
+		coverage: {
+			provider: 'istanbul', // or 'c8'
+			reporter: ['text', 'json', 'html']
+		}
+	}
 });

@@ -3,6 +3,7 @@ node_modules
 /build
 /dist
 /package
+/coverage
 .env
 .env.*
 !.env.example
