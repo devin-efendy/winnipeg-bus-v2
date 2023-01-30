@@ -15,6 +15,6 @@
   "dependencies": {
     "aws-sdk": "^2.1304.0",
     "node-fetch": "^3.3.0",
-    "s3-unzip": "^0.1.13"
+    "yauzl": "^2.10.0"
   }
 }
