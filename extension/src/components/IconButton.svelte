@@ -21,10 +21,13 @@
 		color: var(--icon-button-color);
 
 		padding: 4px;
+
+		transition: background-color 200ms;
 	}
 
 	button:active:focus {
-		background-color: var(--icon-button-active);
+		transition: background-color 0ms;
+		background-color: var(--icon-button-focus);
 		color: #fafafa;
 	}
 

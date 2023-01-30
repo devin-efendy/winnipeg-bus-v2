@@ -10,10 +10,11 @@ const theme = {
 		divider: '#71717a'
 	},
 	'icon-button': {
-		base: '#18181B',
-		hover: '#3F3F46',
-		active: '#3B82F6',
-		color: '#A1A1AA'
+		base: 'transparent',
+		hover: '#3f3f46',
+		focus: '#525252',
+		active: '#3b82f6',
+		color: '#cbd5e1'
 	},
 	outline: {
 		active: '#3B82F6'
