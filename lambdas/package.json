@@ -1,0 +1,20 @@
+{
+  "name": "wt-functions",
+  "version": "1.0.0",
+  "description": "AWS Lambda handlers for Winnipeg Translit (Live)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:layer": "mkdir -p nodejs/ && cp package.json nodejs/ && cd nodejs/ && npm i",
+    "build:src": "mkdir -p build/ && cp index.js build/",
+    "build": "npm run build:layer && npm run build:src",
+    "compress": "zip -r layer.zip nodejs/ && zip source.zip build/"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1304.0",
+    "node-fetch": "^3.3.0",
+    "s3-unzip": "^0.1.13"
+  }
+}
