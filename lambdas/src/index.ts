@@ -9,7 +9,6 @@ const main = async () => {
       "http://gtfs.winnipegtransit.com/google_transit.zip"
     );
     const buffer = Buffer.from(await res.arrayBuffer());
-    console.log(buffer);
 
     await extractDataToS3(buffer);
     return {
