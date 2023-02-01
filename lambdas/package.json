@@ -1,20 +1,30 @@
 {
-  "name": "wt-functions",
+  "name": "extract-transit-data",
   "version": "1.0.0",
   "description": "AWS Lambda handlers for Winnipeg Translit (Live)",
-  "main": "index.js",
   "scripts": {
+    "dev": "NODE_ENV=development ts-node src/local.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:layer": "mkdir -p nodejs/ && cp package.json nodejs/ && cd nodejs/ && npm i",
-    "build:src": "mkdir -p build/ && cp index.js build/",
-    "build": "npm run build:layer && npm run build:src",
-    "compress": "zip -r layer.zip nodejs/ && zip source.zip build/"
+    "build": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
+    "compress": "cd dist && zip -r ../index.zip index.js*",
+    "deploy:create": "aws lambda create-function --function-name extractTransitData --runtime 'nodejs18.x' --role LAMBDA_ROLE --zip-file 'fileb://index.zip' --handler index.handler",
+    "deploy:update": "aws lambda update-function-code --function-name extractTransitData --zip-file 'fileb://index.zip'",
+    "update": "npm run build && npm run compress && npm run deploy:update"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1304.0",
+    "dotenv": "^16.0.3",
     "node-fetch": "^3.3.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5",
     "yauzl": "^2.10.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.110",
+    "@types/node": "^18.11.18",
+    "@types/yauzl": "^2.10.0",
+    "esbuild": "^0.17.5"
   }
 }

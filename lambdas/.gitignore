@@ -3,3 +3,4 @@ build/
 nodejs/
 node_modules/
 *.zip
+.env

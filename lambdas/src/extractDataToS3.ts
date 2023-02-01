@@ -1,18 +1,14 @@
-const yauzl = require("yauzl");
-const AWS = require("aws-sdk");
+import yauzl from "yauzl";
+import getS3Client from "./getS3Client";
 
-const s3 = new AWS.S3({
-  accessKeyId: "",
-  secretAccessKey: "",
-  region: "",
-});
+const s3 = getS3Client();
 
-const sequentialS3Upload = async (buffer) => {
+const extractDataToS3 = async (buffer: Buffer) => {
   return new Promise((resolve, reject) => {
     yauzl.fromBuffer(buffer, { lazyEntries: true }, function (err, zipfile) {
       if (err) {
         console.log(err);
-        rejects(err);
+        return reject(err);
       }
 
       zipfile.readEntry();
@@ -22,7 +18,10 @@ const sequentialS3Upload = async (buffer) => {
           zipfile.readEntry();
         } else {
           zipfile.openReadStream(entry, async function (err, readStream) {
-            if (err) reject(err);
+            if (err) {
+              return reject(err);
+            }
+
             const { fileName } = entry;
 
             if (
@@ -39,8 +38,13 @@ const sequentialS3Upload = async (buffer) => {
                 Body: readStream,
               };
 
-              const result = await s3.upload(params).promise();
-              console.log(`${fileName} is successfully uploaded...`);
+              try {
+                await s3.upload(params).promise();
+                console.log(`Successfully uploaded ${fileName}!`);
+              } catch (error) {
+                console.log(error);
+                return reject(error);
+              }
             }
 
             zipfile.readEntry();
@@ -53,18 +57,4 @@ const sequentialS3Upload = async (buffer) => {
   });
 };
 
-const main = async () => {
-  try {
-    const res = await fetch(
-      "http://gtfs.winnipegtransit.com/google_transit.zip"
-    );
-    const buffer = Buffer.from(await res.arrayBuffer());
-
-    console.log(await sequentialS3Upload(buffer));
-    console.log("finished successfully...");
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-main();
+export default extractDataToS3;
