@@ -1,7 +1,9 @@
-import yauzl from "yauzl";
-import getS3Client from "./getS3Client";
+import yauzl from 'yauzl';
+import getS3Client from './getS3Client';
 
 const s3 = getS3Client();
+
+const filesToExtract = ['stop_times.txt', 'routes.txt', 'trips.txt', 'stops.txt'];
 
 const extractDataToS3 = async (buffer: Buffer) => {
   return new Promise((resolve, reject) => {
@@ -13,7 +15,7 @@ const extractDataToS3 = async (buffer: Buffer) => {
 
       zipfile.readEntry();
 
-      zipfile.on("entry", function (entry) {
+      zipfile.on('entry', function (entry) {
         if (/\/$/.test(entry.fileName)) {
           zipfile.readEntry();
         } else {
@@ -23,24 +25,18 @@ const extractDataToS3 = async (buffer: Buffer) => {
             }
 
             const { fileName } = entry;
+            const baseName = fileName.split('.')[0];
 
-            if (
-              [
-                "stop_times.txt",
-                "routes.txt",
-                "trips.txt",
-                "stops.txt",
-              ].includes(fileName)
-            ) {
+            if (filesToExtract.includes(fileName)) {
               const params = {
-                Bucket: "winnipeg-transit-static-data",
-                Key: `daily/${fileName}`,
+                Bucket: 'winnipeg-transit-static-data',
+                Key: `daily/${baseName}.csv`,
                 Body: readStream,
               };
 
               try {
                 await s3.upload(params).promise();
-                console.log(`Successfully uploaded ${fileName}!`);
+                console.log(`Successfully uploaded ${baseName}.csv!`);
               } catch (error) {
                 console.log(error);
                 return reject(error);
@@ -52,7 +48,7 @@ const extractDataToS3 = async (buffer: Buffer) => {
         }
       });
 
-      zipfile.on("end", () => resolve("end"));
+      zipfile.on('end', () => resolve('end'));
     });
   });
 };

@@ -1,13 +1,9 @@
-import extractDataToS3 from "./extractDataToS3";
+import extractDataToS3 from './extractDataToS3';
 
 const main = async () => {
-  console.log(
-    "Starting extraction for file: http://gtfs.winnipegtransit.com/google_transit.zip"
-  );
+  console.log('Starting extraction for file: http://gtfs.winnipegtransit.com/google_transit.zip');
   try {
-    const res = await fetch(
-      "http://gtfs.winnipegtransit.com/google_transit.zip"
-    );
+    const res = await fetch('http://gtfs.winnipegtransit.com/google_transit.zip');
     const buffer = Buffer.from(await res.arrayBuffer());
 
     await extractDataToS3(buffer);
