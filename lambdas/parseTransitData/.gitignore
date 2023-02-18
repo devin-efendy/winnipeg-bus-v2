@@ -1,0 +1,5 @@
+.transitenv/
+__pycache__/
+package/
+*.zip
+.env

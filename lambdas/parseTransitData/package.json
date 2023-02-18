@@ -1,0 +1,16 @@
+{
+  "name": "parse-transit-data",
+  "version": "1.0.0",
+  "description": "AWS Lambda handlers for Winnipeg Translit (Live)",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf package/ *.zip",
+    "build": "pip3 install --platform manylinux2014_x86_64 --target ./package --implementation cp --python 3.9 --only-binary=:all: --upgrade -r requirements.txt",
+    "compress": "cd package; zip -r ../parseTransitData.zip .; cd ../; zip parseTransitData.zip app.py",
+    "deploy:create": "aws lambda create-function --function-name parseTransitData --runtime 'python3.9' --role LAMBDA_ROLE --zip-file 'fileb://index.zip' --handler index.handler",
+    "deploy:update": "aws lambda update-function-code --function-name parseTransitData --zip-file 'fileb://parseTransitData.zip'",
+    "update": "npm run clean && npm run build && npm run compress && npm run deploy:update"
+  },
+  "author": "",
+  "license": "ISC"
+}
