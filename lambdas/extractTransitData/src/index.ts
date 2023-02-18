@@ -7,6 +7,9 @@ const main = async () => {
     const buffer = Buffer.from(await res.arrayBuffer());
 
     await extractDataToS3(buffer);
+
+    console.log('Successfully extract daily transit data to S3!')
+
     return {
       status: 200,
     };

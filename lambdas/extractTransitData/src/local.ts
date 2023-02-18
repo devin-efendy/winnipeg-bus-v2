@@ -1,2 +1,3 @@
 import { handler } from './index';
-handler();
+
+export default handler;
