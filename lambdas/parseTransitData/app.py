@@ -15,8 +15,6 @@ DB_PASSWORD = os.environ['DB_PASSWORD']
 
 db_connection = f'dbname=%s host=%s user=%s password=%s port=%s' % (
     DB_DATABASE, DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT)
-connection = psycopg.connect(db_connection)
-cursor = connection.cursor()
 
 
 def to_pg_str_array(items):
@@ -52,6 +50,9 @@ def lambda_handler(event, context):
     sio = StringIO()
     sio.write(stops_df.to_csv(index=None, header=None))
     sio.seek(0)
+
+    connection = psycopg.connect(db_connection)
+    cursor = connection.cursor()
 
     cursor.execute('TRUNCATE transit_stops')
     connection.commit()

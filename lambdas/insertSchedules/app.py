@@ -16,8 +16,6 @@ DB_PASSWORD = os.environ['DB_PASSWORD']
 
 db_connection = f'dbname=%s host=%s user=%s password=%s port=%s' % (
     DB_DATABASE, DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT)
-connection = psycopg.connect(db_connection)
-cursor = connection.cursor()
 
 today_dt = datetime.datetime.now()
 year = today_dt.year
@@ -64,7 +62,10 @@ def lambda_handler(event, context):
     sio = StringIO()
     sio.write(stop_times_df.to_csv(index=None, header=None))
     sio.seek(0)
-    
+
+    connection = psycopg.connect(db_connection)
+    cursor = connection.cursor()
+
     cursor.execute('TRUNCATE stop_schedules')
     connection.commit()
 
