@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "AWS Lambda handlers for Winnipeg Translit (Live)",
   "scripts": {
+    "dev": "PYTHON_ENV=develop python3 local.py",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf package/ *.zip",
     "build": "pip3 install --platform manylinux2014_x86_64 --target ./package --implementation cp --python 3.9 --only-binary=:all: --upgrade -r requirements.txt",
