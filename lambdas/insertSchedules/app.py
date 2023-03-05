@@ -1,12 +1,33 @@
 import pandas as pd
 import psycopg
 from io import StringIO
-from datetime import datetime
+import datetime
+from dotenv import load_dotenv
+import os
 
-today_date = datetime.now().date()
-year = today_date.year
-month = today_date.month
-day = today_date.day
+if 'PYTHON_ENV' in os.environ:
+    load_dotenv()
+
+DB_HOST = os.environ['DB_HOST']
+DB_DATABASE = os.environ['DB_DATABASE']
+DB_USERNAME = os.environ['DB_USERNAME']
+DB_PORT = os.environ['DB_PORT']
+DB_PASSWORD = os.environ['DB_PASSWORD']
+
+db_connection = f'dbname=%s host=%s user=%s password=%s port=%s' % (
+    DB_DATABASE, DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT)
+connection = psycopg.connect(db_connection)
+cursor = connection.cursor()
+
+today_dt = datetime.datetime.now()
+year = today_dt.year
+month = today_dt.month
+day = today_dt.day
+
+next_day_dt = today_dt + datetime.timedelta(days=1)
+tmr_year = next_day_dt.year
+tmr_month = next_day_dt.month
+tmr_day = next_day_dt.day
 
 
 def get_s3_uri(filepath):
@@ -19,12 +40,14 @@ def format_date(date):
 
     is_next_day = int(hour) >= 24
 
+    date_day = tmr_day if is_next_day else day
+    date_month = tmr_month if is_next_day else month
+    date_year = tmr_year if is_next_day else year
+
     hour = int(hour) - 24 if is_next_day else int(hour)
     hour = str(hour).zfill(2)
 
-    new_day = day + 1 if is_next_day else day
-
-    return f'%s-%s-%s %s:%s:%s' % (year, month, new_day, hour, minute, second)
+    return f'%s-%s-%s %s:%s:%s' % (date_year, date_month, date_day, hour, minute, second)
 
 
 def lambda_handler(event, context):
@@ -38,15 +61,12 @@ def lambda_handler(event, context):
     stop_times_df['departure_time'] = stop_times_df['departure_time'].apply(
         format_date)
 
-    connection = psycopg.connect(
-        "dbname=transit-schedule host=localhost user=postgres password=postgres port=5432")
-    cursor = connection.cursor()
-
     sio = StringIO()
     sio.write(stop_times_df.to_csv(index=None, header=None))
     sio.seek(0)
 
     print('Batch inserts to PostgreSQL...')
+
     with cursor.copy("COPY stop_schedules FROM STDIN WITH (FORMAT CSV)") as copy:
         while data := sio.read():
             copy.write(data)
