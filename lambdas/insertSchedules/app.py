@@ -64,6 +64,9 @@ def lambda_handler(event, context):
     sio = StringIO()
     sio.write(stop_times_df.to_csv(index=None, header=None))
     sio.seek(0)
+    
+    cursor.execute('TRUNCATE stop_schedules')
+    connection.commit()
 
     print('Batch inserts to PostgreSQL...')
 

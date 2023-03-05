@@ -53,6 +53,9 @@ def lambda_handler(event, context):
     sio.write(stops_df.to_csv(index=None, header=None))
     sio.seek(0)
 
+    cursor.execute('TRUNCATE transit_stops')
+    connection.commit()
+
     print("Copying to DB...")
     with cursor.copy("COPY transit_stops FROM STDIN WITH (FORMAT CSV)") as copy:
         while data := sio.read():
