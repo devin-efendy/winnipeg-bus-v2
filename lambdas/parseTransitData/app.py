@@ -62,6 +62,7 @@ def lambda_handler(event, context):
             copy.write(data)
 
     connection.commit()
+    connection.close()
 
     return {
         'statusCode': 200,
