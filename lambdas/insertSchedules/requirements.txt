@@ -1,4 +1,0 @@
-s3fs
-pandas
-psycopg[binary]
-python-dotenv

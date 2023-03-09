@@ -3,15 +3,38 @@
   "version": "1.0.0",
   "description": "AWS Lambda handlers for Winnipeg Translit (Live)",
   "scripts": {
-    "dev": "PYTHON_ENV=develop python3 local.py",
+    "dev": "NODE_ENV=development ts-node src/local.ts",
+    "dev:invoke": "aws lambda invoke --function-name parseTransitDataJS --invocation-type Event /dev/stdout",
+    "lint": "eslint --fix src/*.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "rm -rf package/ *.zip",
-    "build": "pip3 install --platform manylinux2014_x86_64 --target ./package --implementation cp --python 3.9 --only-binary=:all: --upgrade -r requirements.txt",
-    "compress": "cd package; zip -r ../parseTransitData.zip .; cd ../; zip parseTransitData.zip app.py",
-    "deploy:create": "aws lambda create-function --function-name parseTransitData --runtime 'python3.9' --role LAMBDA_ROLE --zip-file 'fileb://index.zip' --handler index.handler",
-    "deploy:update": "aws lambda update-function-code --function-name parseTransitData --zip-file 'fileb://parseTransitData.zip'",
-    "update": "npm run clean && npm run build && npm run compress && npm run deploy:update"
+    "build": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
+    "compress": "cd dist && zip -r ../index.zip index.js*",
+    "deploy:create": "aws lambda create-function --function-name parseTransitDataJS --runtime 'nodejs18.x' --role LAMBDA_ROLE --zip-file 'fileb://index.zip' --handler index.handler",
+    "deploy:update": "aws lambda update-function-code --function-name parseTransitDataJS --zip-file 'fileb://index.zip'",
+    "update": "npm run build && npm run compress && npm run deploy:update"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.282.0",
+    "@aws-sdk/types": "^3.272.0",
+    "dotenv": "^16.0.3",
+    "fast-csv": "^4.3.6",
+    "node-fetch": "^3.3.0",
+    "pg-native": "^3.0.1",
+    "pg-promise": "^11.3.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
+    "esbuild": "^0.17.5",
+    "eslint": "^8.33.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "moment": "^2.29.4",
+    "prettier": "^2.8.3"
+  }
 }

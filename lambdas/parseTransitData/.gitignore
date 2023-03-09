@@ -1,5 +1,6 @@
-.transitenv/
-__pycache__/
-package/
+**/.DS_Store
+build/
+nodejs/
+node_modules/
 *.zip
 .env
