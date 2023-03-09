@@ -1,0 +1,15 @@
+const AwsConfig = {
+  Region: 'ca-central-1',
+  Bucket: 'winnipeg-transit-static-data',
+  Prefix: 'daily',
+};
+
+const DbConfig = {
+  Database: process.env.DB_DATABASE,
+  Username: process.env.DB_USERNAME,
+  Password: process.env.DB_PASSWORD,
+  Host: process.env.DB_HOST,
+  Port: process.env.DB_PORT,
+};
+
+export { AwsConfig, DbConfig };
