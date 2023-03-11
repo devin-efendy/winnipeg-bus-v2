@@ -1,6 +1,6 @@
 <script lang="ts">
-	import NavBar from './components/NavBar.svelte';
-	import AppContent from './components/AppContent.svelte';
+	import NavBar from '@components/NavBar.svelte';
+	import AppContent from '@components/AppContent.svelte';
 	import { getContext, onMount } from 'svelte';
 	import type { ITransitContext } from './types';
 
