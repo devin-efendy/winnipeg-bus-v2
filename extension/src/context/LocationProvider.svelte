@@ -32,7 +32,7 @@
 		clearLocation: function () {
 			removeStorageItem('location');
 		},
-		onLocationChange: locationStores.subscribe
+		locationStores
 	});
 </script>
 
