@@ -1,39 +1,39 @@
 <script lang="ts">
-	import { setContext } from 'svelte';
-	import { writable } from 'svelte/store';
-	import getLocation from '@utils/location';
-	import type { UserLocation } from '@types-transit';
-	import { getStorageItem, removeStorageItem, setStorageItem } from '@utils/storage';
+  import { setContext } from 'svelte';
+  import { writable } from 'svelte/store';
+  import getLocation from '@utils/location';
+  import type { UserLocation } from '@types-transit';
+  import { getStorageItem, removeStorageItem, setStorageItem } from '@utils/storage';
 
-	const locationStores = writable<UserLocation>(undefined);
+  const locationStores = writable<UserLocation>(undefined);
 
-	setContext('location', {
-		fetchLocation: async function () {
-			let currentLocation = (await getStorageItem('location')) as UserLocation;
+  setContext('location', {
+    fetchLocation: async function () {
+      let currentLocation = (await getStorageItem('location')) as UserLocation;
 
-			if (currentLocation && currentLocation.expiryDate > Date.now()) {
-				return currentLocation;
-			}
+      if (currentLocation && currentLocation.expiryDate > Date.now()) {
+        return currentLocation;
+      }
 
-			const { latitude, longitude } = await getLocation();
+      const { latitude, longitude } = await getLocation();
 
-			const expiryDate = Date.now() + 5 * 60 * 1000; // 5 minutes = 5 x 60sec * 1000ms
-			currentLocation = {
-				latitude,
-				longitude,
-				expiryDate
-			};
+      const expiryDate = Date.now() + 5 * 60 * 1000; // 5 minutes = 5 x 60sec * 1000ms
+      currentLocation = {
+        latitude,
+        longitude,
+        expiryDate
+      };
 
-			locationStores.set(currentLocation);
-			setStorageItem('location', currentLocation);
+      locationStores.set(currentLocation);
+      setStorageItem('location', currentLocation);
 
-			return currentLocation;
-		},
-		clearLocation: function () {
-			removeStorageItem('location');
-		},
-		locationStores
-	});
+      return currentLocation;
+    },
+    clearLocation: function () {
+      removeStorageItem('location');
+    },
+    locationStores
+  });
 </script>
 
 <slot />
