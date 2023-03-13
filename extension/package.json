@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "vite build && cp ./src/background.js ./dist/assets/",
+		"build": "vite build",
 		"test": "vitest run --coverage src",
 		"test:watch": "vitest src",
 		"preview": "vite preview",

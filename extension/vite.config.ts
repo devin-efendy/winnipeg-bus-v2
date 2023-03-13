@@ -1,16 +1,19 @@
 import { defineConfig } from 'vitest/config';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import * as path from 'path';
+import { resolve } from 'path';
+
+const root = resolve(__dirname, 'src');
+const outDir = resolve(__dirname, 'dist');
 
 export default defineConfig({
 	plugins: [svelte({ hot: !process.env.VITEST })],
 	resolve: {
 		alias: {
-			'@': path.resolve(__dirname, './src'),
-			'@types-transit': path.resolve(__dirname, './src/types.ts'),
-			'@utils': path.resolve(__dirname, './src/utils'),
-			'@components': path.resolve(__dirname, './src/components'),
-			'@context': path.resolve(__dirname, './src/context')
+			'@': resolve(__dirname, './src'),
+			'@types-transit': resolve(__dirname, './src/types.ts'),
+			'@utils': resolve(__dirname, './src/utils'),
+			'@components': resolve(__dirname, './src/components'),
+			'@context': resolve(__dirname, './src/context')
 		}
 	},
 	test: {
@@ -20,6 +23,18 @@ export default defineConfig({
 		coverage: {
 			provider: 'istanbul', // or 'c8'
 			reporter: ['text', 'json', 'html']
+		}
+	},
+	build: {
+		outDir,
+		rollupOptions: {
+			input: {
+				background: resolve(root, 'background', 'index.ts'),
+				popup: resolve(__dirname, 'index.html')
+			},
+			output: {
+				entryFileNames: (chunk) => `${chunk.name}/index.js`
+			}
 		}
 	}
 });

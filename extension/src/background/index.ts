@@ -11,3 +11,5 @@ function onMessageHandler(message, sender, sendResponse) {
 }
 
 chrome.runtime.onMessage.addListener(onMessageHandler);
+
+export {};
