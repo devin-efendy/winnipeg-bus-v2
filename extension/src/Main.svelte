@@ -2,30 +2,38 @@
   import NavBar from '@components/NavBar.svelte';
   import AppContent from '@components/AppContent.svelte';
   import { getContext, onMount } from 'svelte';
-  import type { ITransitContext } from './types';
+  import type { TransitContext } from './types';
+  import StopList from '@components/StopList.svelte';
 
-  const { fetchLocation } = getContext<ITransitContext>('location');
+  const { fetchLocation, locationStores } = getContext<TransitContext>('location');
 
-  let latitude = '';
-  let longitude = '';
+  let nearbyStops = [];
+
+  $: if ($locationStores) {
+    const { latitude, longitude } = $locationStores;
+    console.log(latitude, longitude);
+
+    fetch(`http://localhost:8080/stops/nearby?lat=${latitude}&lon=${longitude}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((resJson) => {
+        nearbyStops = resJson['stops'];
+      });
+  }
 
   onMount(async () => {
-    const { latitude: lat, longitude: lon } = await fetchLocation();
-    latitude = lat;
-    longitude = lon;
+    await fetchLocation();
   });
 </script>
 
 <main>
   <NavBar />
   <AppContent>
-    <div style="padding: 15px;">
-      {#if latitude && longitude}
-        <p>latitude: {latitude}</p>
-        <p>longitude: {longitude}</p>
-      {:else}
-        <p>Finding your location...</p>
-      {/if}
-    </div>
+    {#if !$locationStores}
+      <div>Fetching your location...</div>
+    {:else}
+      <StopList stops={nearbyStops} />
+    {/if}
   </AppContent>
 </main>

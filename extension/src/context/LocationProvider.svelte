@@ -12,20 +12,26 @@
       let currentLocation = (await getStorageItem('location')) as UserLocation;
 
       if (currentLocation && currentLocation.expiryDate > Date.now()) {
+        console.log('[ctx] Current location is found in cache');
+        // locationStores.update((location) => currentLocation);
+        locationStores.set(currentLocation);
         return currentLocation;
       }
 
+      console.log('[ctx] Location is not found in cache. Fetching new one...');
+
       const { latitude, longitude } = await getLocation();
 
-      const expiryDate = Date.now() + 5 * 60 * 1000; // 5 minutes = 5 x 60sec * 1000ms
+      const expiryDate = Date.now() + 15 * 60 * 1000; // 5 minutes = 5 x 60sec * 1000ms
       currentLocation = {
         latitude,
         longitude,
         expiryDate
       };
 
-      locationStores.set(currentLocation);
       setStorageItem('location', currentLocation);
+      // locationStores.update((location) => currentLocation);
+      locationStores.set(currentLocation);
 
       return currentLocation;
     },

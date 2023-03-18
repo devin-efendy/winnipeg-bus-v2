@@ -8,16 +8,17 @@ html,
 body {
   border-radius: 5px;
   /* background-color: #242424; */
-
+  font-family: Montserrat, sans-serif;
   width: 100%;
   height: 100%;
 }
 
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Inter, Avenir, Helvetica, Arial, sans-serif; */
+  /* font-family: Avenir, sans-serif; */
+  font-family: Montserrat, sans-serif;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 400;
 
   color: rgba(255, 255, 255, 0.87);
 

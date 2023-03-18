@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import 'iconify-icon';
   import IconButton from './IconButton.svelte';
 
