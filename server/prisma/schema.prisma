@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model StopTime {
+  tripId        Int      @map("trip_id")
+  arrivalTime   DateTime @map("arrival_time") @db.Timestamp(6)
+  departureTime DateTime @map("departure_time") @db.Timestamp(6)
+  stopId        Int      @map("stop_id")
+  stopSequence  Int      @map("stop_sequence")
+
+  @@id([stopId, tripId], map: "pk_stop_times_id")
+  @@map("stop_times")
+}
+
+model Stop {
+  stopId   Int      @id @map("stop_id")
+  stopCode Int      @map("stop_code")
+  stopName String   @map("stop_name")
+  stopLat  String   @map("stop_lat")
+  stopLon  String   @map("stop_lon")
+  stopUrl  String   @map("stop_url")
+  routes   String[] @map("routes")
+
+  @@map("stops")
+}
+
+model Trip {
+  routeId              String @map("route_id")
+  serviceId            Int    @map("service_id")
+  tripId               Int    @id @map("trip_id")
+  tripHeadsign         String @map("trip_headsign")
+  directionId          Int    @map("direction_id")
+  blockId              String @map("block_id")
+  shapeId              Int    @map("shape_id")
+  wheelchairAccessible Int    @map("wheelchair_accessible")
+
+  @@map("trips")
+}
