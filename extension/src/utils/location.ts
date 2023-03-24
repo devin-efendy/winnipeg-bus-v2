@@ -12,7 +12,9 @@ export default async function getLocation() {
       navigator.geolocation.getCurrentPosition(res, rej, options);
     });
 
+  console.time('Geolocation: getCurrentPosition');
   const location = await fetchLocation();
+  console.timeEnd('Geolocation: getCurrentPosition');
 
   const { latitude, longitude } = location.coords;
 

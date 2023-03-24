@@ -22,7 +22,7 @@
 
       const { latitude, longitude } = await getLocation();
 
-      const expiryDate = Date.now() + 15 * 60 * 1000; // 5 minutes = 5 x 60sec * 1000ms
+      const expiryDate = Date.now() + 60 * 60 * 1000; // 60 minutes = 60 x 60sec * 1000ms
       currentLocation = {
         latitude,
         longitude,

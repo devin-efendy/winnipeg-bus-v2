@@ -29,7 +29,7 @@ export default defineConfig({
     outDir,
     rollupOptions: {
       input: {
-        background: resolve(root, 'background', 'index.ts'),
+        background: resolve(root, 'chrome/background', 'index.ts'),
         popup: resolve(__dirname, 'index.html')
       },
       output: {

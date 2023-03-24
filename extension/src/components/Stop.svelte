@@ -30,7 +30,8 @@
     padding: 16px;
     border-radius: 8px;
 
-    transition: background-color 0.1s ease-in-out;
+    transition: background-color 0.05s ease-in-out;
+    cursor: default;
   }
 
   #card-container:hover {
