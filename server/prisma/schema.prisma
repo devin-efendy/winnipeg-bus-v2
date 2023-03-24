@@ -42,3 +42,16 @@ model Trip {
 
   @@map("trips")
 }
+
+model Routes {
+  routeId   String @id @map("route_id")
+  shortName String @map("short_name")
+  longName  String @map("long_name")
+  type      Int    @map("type")
+  url       String @map("url")
+  color     String @map("color")
+  textColor String @map("text_color")
+  sortOrder Int    @map("sort_order")
+
+  @@map("routes")
+}
