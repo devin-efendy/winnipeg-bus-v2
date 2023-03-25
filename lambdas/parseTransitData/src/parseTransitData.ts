@@ -1,5 +1,6 @@
 import pgp from 'pg-promise';
 import { DbConfig } from './config';
+import parseRoutes from './utils/parseRoutes';
 import parseStops from './utils/parseStops';
 import parseStopTimes from './utils/parseStopTimes';
 import parseTrips from './utils/parseTrips';
@@ -54,6 +55,18 @@ async function parseTransitData() {
     trips,
   );
   console.timeEnd('Insert trips to DB');
+
+  console.time('Parsing routes.csv');
+  const routes = await parseRoutes();
+  console.timeEnd('Parsing routes.csv');
+
+  console.time('Insert routes to DB');
+  await insertToDB(
+    'routes',
+    ['route_id', 'short_name', 'long_name', 'type', 'url', 'color', 'text_color', 'sort_order'],
+    routes,
+  );
+  console.timeEnd('Insert routes to DB');
 
   console.time('Parsing stops and adding passing routes');
   const stops: any[] = await parseStops();
