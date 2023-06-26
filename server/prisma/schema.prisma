@@ -32,7 +32,7 @@ model Stop {
 
 model Trip {
   routeId              String @map("route_id")
-  serviceId            Int    @map("service_id")
+  serviceId            String    @map("service_id")
   tripId               Int    @id @map("trip_id")
   tripHeadsign         String @map("trip_headsign")
   directionId          Int    @map("direction_id")

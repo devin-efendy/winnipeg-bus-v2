@@ -5,7 +5,7 @@ services:
     image: postgres:15.1-alpine
     restart: always
     environment:
-      - POSTGRES_DB=transit_schedule
+      - POSTGRES_DB=transit
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:

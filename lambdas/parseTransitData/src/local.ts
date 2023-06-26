@@ -1,3 +1,5 @@
 import { handler } from './index';
 
-handler(null, null, null);
+handler(undefined, undefined, (_: unknown, message: string) => {
+  console.log(message);
+});
