@@ -2,7 +2,7 @@ import type { IStop } from '@/types';
 import { writable } from 'svelte/store';
 
 function createStops() {
-  const { subscribe, set, update } = writable<IStop[]>();
+  const { subscribe, set } = writable<IStop[]>();
 
   return {
     subscribe,
