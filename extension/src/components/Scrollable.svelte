@@ -13,13 +13,13 @@
     }
 
     100% {
-      --thumb-color: rgba(255, 255, 255, 0.4);
+      --thumb-color: rgba(255, 255, 255, 0.2);
     }
   }
 
   @keyframes scrollBarThumbFadeOut {
     0% {
-      --thumb-color: rgba(255, 255, 255, 0.4);
+      --thumb-color: rgba(255, 255, 255, 0.2);
     }
 
     100% {
@@ -39,16 +39,16 @@
   }
 
   .scrollable::-webkit-scrollbar {
-    width: 21px;
+    width: 16px;
     background: transparent;
   }
 
   .scrollable::-webkit-scrollbar-thumb {
     background: var(--thumb-color);
     background-clip: padding-box;
-    border-radius: 9px;
+    border-radius: 9999px;
 
-    border-right: 6px solid transparent;
-    border-left: 6px solid transparent;
+    border-right: 3px solid transparent;
+    border-left: 3px solid transparent;
   }
 </style>

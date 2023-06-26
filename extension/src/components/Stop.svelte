@@ -27,7 +27,8 @@
 <style>
   #card-container {
     margin: 12px;
-    padding: 16px;
+    margin-right: 0px;
+    padding: 12px;
     border-radius: 8px;
 
     transition: background-color 0.05s ease-in-out;
